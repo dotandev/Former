@@ -1,11 +1,9 @@
 'use client'
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import { Form, formService } from "@/app/services/formService";
 
 export default function Dashboard () {
-  const router = useRouter();
   const [forms, setForms] = useState<Form[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,11 +23,11 @@ export default function Dashboard () {
   }, []);
 
   const handleCreateForm = () => {
-    router.push("/form-builder");
+    window.open("/builder", "_self");
   };
 
   const handleViewResponses = (formId: string) => {
-    router.push(`/form/${formId}`);
+    window.open(`/builder/${formId}`, "_self");
   };
 
   return (

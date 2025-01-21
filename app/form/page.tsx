@@ -1,21 +1,46 @@
 'use client'
 
-
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { Form, formService } from '@/app/services/formService'
+import { usePathname } from "next/navigation";
+import { Form, formService } from '@/app/services/formService';
 
-export default function FormSubmissionPage () {
-  const router = useRouter();
-  const { slug } = router.query;
-  const [form, setForm] = useState<Form | null>(null);
+export default function FormSubmissionPage() {
+  const pathname = usePathname();
+  const slug = pathname?.split('/').pop();
+  const [form, setForm] = useState<Form | null>({
+    id: "2",
+    title: "Man",
+    description: "VGjhkjhwldkvjhjsdlkhFKBDBASBJDF",
+    fields: [
+      {
+        id: "2",
+        label: "Man",
+        type: "text",
+        required: true,
+        options: ['Should be a number'],
+        placeholder: "Put results here.",
+        defaultValue: true
+      },
+        {
+          id: "2",
+          label: "Man",
+          type: "select",
+          required: true,
+          options: ['Should be a number', 'dfdgsbnh', 'fwregrhn', 'dsafwgerhnt'],
+          placeholder: "Put results here.",
+          defaultValue: true
+        },
+    ],
+    createdAt: '2026',
+    updatedAt: '2027'
+  });
   const [formData, setFormData] = useState<Record<string, string>>({});
 
   useEffect(() => {
     const fetchForm = async () => {
       if (slug) {
         try {
-          const fetchedForm = await formService.getFormById(slug as string);
+          const fetchedForm = await formService.getFormById(slug);
           setForm(fetchedForm);
         } catch (error) {
           console.error("Failed to fetch form:", error);
@@ -30,7 +55,8 @@ export default function FormSubmissionPage () {
     setFormData({ ...formData, [fieldId]: value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     console.log("Form submitted:", formData);
   };
 

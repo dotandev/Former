@@ -1,11 +1,9 @@
 'use client'
 
 import React, { useState } from "react";
-import { useRouter } from "next/router";
 import { FormField, formService } from "@/app/services/formService";
 
 export default function FormBuilderPage () {
-  const router = useRouter();
   const [formTitle, setFormTitle] = useState("");
   const [formDescription, setFormDescription] = useState("");
   const [fields, setFields] = useState<FormField[]>([]);
@@ -25,7 +23,7 @@ export default function FormBuilderPage () {
         fields,
       };
       await formService.createForm(newForm);
-      router.push("/");
+      window.open("/forms", "_self");
     } catch (error) {
       console.error("Failed to save form:", error);
     }
